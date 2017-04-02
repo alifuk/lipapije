@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Produkt;
 use AppBundle\Entity\Pub;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +22,25 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);*/
     }
+
+
+    /**
+     * @Route("/pridatprodukt/{ales}", name="pridatprodukt")
+     */
+    public function produktAction(string $ales)
+    {
+        $produkt = new Produkt();
+        $produkt->setCena(500);
+        $produkt->setJmeno($ales);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($produkt);
+        $em->flush();
+
+        return $this->render("base.html.twig", [ "ales" => 45]);
+
+    }
+
 
     /**
      * @Route("/hospoda/pridat/{name}/{adress}/{stars}", name="home")
